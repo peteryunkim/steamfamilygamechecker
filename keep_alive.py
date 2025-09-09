@@ -6,6 +6,8 @@ app = Flask('')
 
 @app.route('/')
 def home():
+        print(f"[{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}] Ping received from {request.remote_addr}")
+        print(f"staying alive")
     return "I'm alive!"
 
 def run():
