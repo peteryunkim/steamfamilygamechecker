@@ -1,3 +1,5 @@
-__pycache__/
-.env
 *.log
+*.tmp
+*.swp
+games_cache.json
+.env
