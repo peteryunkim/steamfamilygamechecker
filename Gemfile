@@ -6,3 +6,5 @@ gem 'discordrb'
 gem 'httparty'
 gem 'sinatra'
 gem 'dotenv'
+gem "puma"     # web server
+gem "rackup"   # rack interface
