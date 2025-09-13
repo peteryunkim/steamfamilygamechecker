@@ -14,9 +14,9 @@ if DISCORD_TOKEN.nil? || STEAM_API_KEY.nil? || DISCORD_CHANNEL_ID.nil?
   exit(1)
 end
 
-bot = Discordrb::Commands::CommandBot.new(
+bot = Discordrb::Bot.new(
   token: DISCORD_TOKEN,
-  prefix: "!"
+  intents: []
 )
 
 # List of Steam users you want to track
@@ -62,7 +62,9 @@ bot.ready do |_event|
         unless all_messages.empty?
           final_msg = all_messages.join("\n\n")
           puts final_msg
-          channel.send_message(final_msg) if channel
+          final_msg.scan(/.{1,2000}/m) do |chunk|
+            channel.send_message(chunk)
+          end
         end
       rescue => e
         puts "Error in polling loop: #{e}"
@@ -71,11 +73,6 @@ bot.ready do |_event|
       sleep 60 # wait 1 minute before checking again
     end
   end
-end
-
-# Command for testing
-bot.command :ping do |event|
-  event.respond "Pong!"
 end
 
 # Fetch owned Steam games
@@ -90,7 +87,7 @@ def fetch_games(steam_id)
 end
 
 # Start keep-alive web server (for Render free tier)
-KeepAlive.start
+KeepAlive
 
 # Run bot
 bot.run
